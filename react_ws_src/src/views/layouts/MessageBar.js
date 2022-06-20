@@ -1,29 +1,37 @@
-import React, {Component} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import jquery from 'jquery'
 
-export default class MessageBar extends Component {
+export default function MessageBar () {
 
-	constructor (props) {
-	    super(props)
+	const [msgs, setMsgs] = useState([])
+	const msgBar = useRef(null)
 
-		this.state = {
-			msgs: []
-		};
+	const show_message = (h, m) => {
+		msgs.push({h:unescape(h), m:unescape(m)})
+		setMsgs(msgs)
+		jquery(msgBar.current).slideDown()
+	};
 
-		// {h:'hd', m:'msg'}, {h:'hhdd', m:'mmsgg'}
+	// function closeWindow () {
+	// 	this.state.msgs = []
+	// 	jquery(this.refs.msg_bar).slideUp()
+	// }
+	//
+	// function test_message () {
+	// 	app.trigger(app.events.show_message, 'header', 'this is message')
+	// }
 
-		app.on(app.events.show_message, this.show_message.bind(this))
-	}
+	useEffect(() => {
+		app.on(app.events.show_message, show_message)
+	}, [])
 
-
-	render () {
 		return (
-			this.state.msgs.length>0 &&
-			<div id='msg_bar' ref='msg_bar'>
+			msgs.length > 0 &&
+			<div id='msg_bar' ref={msgBar}>
 				<div className='container'>
 					<div>
 						{
-							this.state.msgs.map(function (m, i) {
+							msgs.map(function (m, i) {
 								return (
 									<p className='one_line' key={i}><span className='exclaim'>{ m.h.length>1 ? m.h+' : ' : '' }</span>{ m.m }<br/></p>
 								)
@@ -34,30 +42,4 @@ export default class MessageBar extends Component {
 				</div>
 			</div>
 		)
-	}
-
-	//	------------	------------	------------	------------
-
-	show_message (h, m) {
-		const msgs = this.state.msgs
-		msgs.push({h:unescape(h), m:unescape(m)})
-
-		this.setState({
-			msgs
-		})
-
-		jquery(this.refs.msg_bar).slideDown()
-	}
-
-	closeWindow () {
-		this.state.msgs = []
-		jquery(this.refs.msg_bar).slideUp()
-	}
-
-	test_message () {
-		app.trigger(app.events.show_message, 'header', 'this is message')
-	}
-}
-
-MessageBar.propTypes = {
 }

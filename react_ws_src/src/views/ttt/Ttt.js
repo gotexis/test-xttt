@@ -1,5 +1,5 @@
 import React, { Component} from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import SetName from './SetName'
 import SetGameType from './SetGameType'
@@ -100,11 +100,3 @@ export default class Ttt extends Component {
 }
 
 //	------------------------	------------------------	------------------------
-
-Ttt.propTypes = {
-	params: React.PropTypes.any
-}
-
-Ttt.contextTypes = {
-  router: React.PropTypes.object.isRequired
-}

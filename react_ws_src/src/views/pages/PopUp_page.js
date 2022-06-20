@@ -23,7 +23,3 @@ export default class PopUp_page extends Component {
 	}
 
 }
-
-PopUp_page.propTypes = {
-	params: React.PropTypes.any
-}

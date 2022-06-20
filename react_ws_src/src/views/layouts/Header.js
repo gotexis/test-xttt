@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import {Link} from 'react-router-dom'
 // import jquery from 'jquery'
 import MessageBar from '../layouts/MessageBar'
 
@@ -41,13 +41,4 @@ export default function Header() {
 
 		</header>
 	)
-}
-
-// property validation
-Header.propTypes = {
-	children: React.PropTypes.any
-}
-
-Header.contextTypes = {
-	router: React.PropTypes.object.isRequired
 }

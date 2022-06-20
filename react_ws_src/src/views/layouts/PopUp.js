@@ -56,12 +56,3 @@ export default class PopUp extends Component {
     this.context.router.push('/')
   }
 }
-
-PopUp.propTypes = {
-  pageTitle: React.PropTypes.string,
-  children: React.PropTypes.any
-}
-
-PopUp.contextTypes = {
-  router: React.PropTypes.object.isRequired
-}

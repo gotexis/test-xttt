@@ -1,10 +1,11 @@
 import React from 'react'
 import app from 'ampersand-app'
-import { render } from 'react-dom'
-import { Router, Route, Redirect, IndexRoute, browserHistory  } from 'react-router'
-import { createHistory, useBasename } from 'history'
-import ga from 'react-ga'
-
+import {render} from 'react-dom'
+import {
+	BrowserRouter,
+	Routes,
+	Route,
+} from 'react-router-dom';
 import './sass/main.scss'
 
 import Main from './views/Main'
@@ -20,26 +21,25 @@ import ErrorPage from './views/pages/ErrorPage'
 import prep_env from './models/prep_env'
 
 
-
 let renderSite = function () {
 	return render((
-		<Router history={browserHistory}>
-			<Route path='/' component={Main}>
+		<BrowserRouter>
+			<Main>
+				<Routes>
+					<Route path='/' element={<Txt_page/>} />
 
-				<IndexRoute components={{mainContent: Txt_page}} />
+					{/* todo: below need to pass different prop to this component to render.
+								Guess below page will only render homepage for now
+					\.*/}
+					<Route path='/pg/(:page)' element={<Txt_page/>}/>
 
-				<Route path='/pg/(:page)' components={{mainContent: Txt_page}} />
-
-				<Route path='/ttt' components={{mainContent: Ttt}} />
-
-				<Route path='/pupg/(:pu_page)' components={{popup: PopUp_page}} />
-
-				<Route path='/contact-us' components={{popup: Contact}} />
-
-				<Route path='/error/404' components={{mainContent: ErrorPage}} />
-				<Route path="*" components={{mainContent: ErrorPage}} />
-			</Route>
-		</Router>
+					<Route path='/ttt' element={<Ttt/>} />
+					<Route path='/pupg/(:pu_page)' element={<PopUp_page/>} />
+					<Route path='/contact-us' element={<Contact/>} />
+					<Route path='/error/404' element={<ErrorPage/>} />
+				</Routes>
+			</Main>
+		</BrowserRouter>
 	), document.getElementById('root'))
 }
 
@@ -64,7 +64,6 @@ app.extend({
 		user_types: [],
 		basket_type: null,
 		basket_total: 0,
-
 	},
 
 
@@ -74,23 +73,7 @@ app.extend({
 
 	},
 
-	start_ga () {
-		ga.initialize(app.settings.ws_conf.conf.ga_acc.an, { debug: true });
-		// ga.pageview(location.pathname)
-		const loclisten = browserHistory.listen((location) => {
-			// ga.send('send', location);
-			ga.pageview(location.pathname)
-		})
-	},
-
 	start () {
-		const history = useBasename(createHistory)({
-			// basename: document.getElementsByTagName('base')[0] ? document.getElementsByTagName('base')[0].getAttribute('href') : ''
-			basename: base_dir
-		})
-
-		this.start_ga()
-
 		renderSite()
 	},
 
