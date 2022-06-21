@@ -1,3 +1,6 @@
+> **Warning**
+> this is only some refactoring work, not code by myself.
+
 # A simple example of a full multiplayer game web app built with React.js and Node.js stack
 
 Major libraries used on front end:
